@@ -16,13 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    KTLogWindow *window = [KTLogWindow shareInstance];
+    KTLogWindow *window = [KTLogWindow sharedInstance];
     window.hidden = NO;
+    self.view.backgroundColor = [UIColor redColor];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [KTLogWindow printLog:@"1"];
+    [KTLogWindow printLog:@"1\n"];
 //    NSLog(@"%@",[[UIApplication sharedApplication] windows]);
 }
 

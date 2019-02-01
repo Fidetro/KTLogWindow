@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface KTLogViewController : UIViewController
 
 
+@property (nonatomic, copy) void(^layoutToFrame_block)(CGRect rect);
+
 - (void)printText:(NSString *)text;
 @end
 

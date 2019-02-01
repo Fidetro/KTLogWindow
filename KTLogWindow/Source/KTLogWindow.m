@@ -16,7 +16,7 @@
 @implementation KTLogWindow
 static KTLogWindow *_window;
 
-+ (instancetype)shareInstance
++ (instancetype)sharedInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -41,7 +41,12 @@ static KTLogWindow *_window;
     if (self)
     {
         self.rootViewController = self.logVC;
-        self.backgroundColor = [UIColor whiteColor];
+        self.windowLevel = UIWindowLevelAlert;
+        self.backgroundColor = [UIColor clearColor];
+        __weak typeof(self) weakself = self;
+        self.logVC.layoutToFrame_block = ^(CGRect rect) {
+            weakself.frame = rect;
+        };
         
     }
     return self;
@@ -49,7 +54,7 @@ static KTLogWindow *_window;
 
 + (void)printLog:(NSString *)text
 {
-    [[KTLogWindow shareInstance].logVC printText:text];
+    [[KTLogWindow sharedInstance].logVC printText:text];
 }
 
 #pragma mark - get and set

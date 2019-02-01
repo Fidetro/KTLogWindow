@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KTLogWindow : UIWindow
 
-+ (instancetype)shareInstance;
++ (instancetype)sharedInstance;
 
 + (void)printLog:(NSString *)text;
 
