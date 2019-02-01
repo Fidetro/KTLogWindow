@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, strong) UIButton *bottomButton;
+@property (nonatomic, strong) UIButton *pasteButton;
 @end
 
 @implementation KTLogViewController
@@ -34,12 +35,16 @@
 - (void)closeAction:(UIButton *)sender
 {
     CGRect frame;
+    BOOL hidden = NO;
     if (sender.selected) {
-        self.bottomButton.hidden = NO;
+        self.bottomButton.hidden = hidden;
+        self.pasteButton.hidden = hidden;
         frame = kNormalFrame;
         self.textView.frame = frame;
     }else{
-        self.bottomButton.hidden = YES;
+        hidden = YES;
+        self.bottomButton.hidden = hidden;
+        self.pasteButton.hidden = hidden;
         frame = kCloseFrame;
         self.textView.frame = frame;
     }
@@ -48,6 +53,11 @@
     {
         self.layoutToFrame_block(frame);
     }
+}
+
+- (void)pasteTextAction:(UIButton *)sender
+{
+    [UIPasteboard generalPasteboard].string = self.textView.text;
 }
 
 - (void)scrollToBottomAction:(UIButton *)sender
@@ -65,6 +75,14 @@
     [self.view addSubview:self.textView];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.top.left.right.mas_equalTo(self.view);
+    }];
+    self.pasteButton = [[UIButton alloc] init];
+    [self.pasteButton setTitle:@"复制" forState:UIControlStateNormal];
+    [self.pasteButton addTarget:self action:@selector(pasteTextAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.pasteButton];
+    [self.pasteButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left);
     }];
     self.bottomButton = [[UIButton alloc] init];
     [self.bottomButton setTitle:@"底部" forState:UIControlStateNormal];
